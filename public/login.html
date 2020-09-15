@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <title>동의대 학생 홈페이지 - 로그인</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:300);
+        .login-page {
+          width: 360px;
+          padding: 8% 0 0;
+          margin: auto;
+        }
+        .form {
+          position: relative;
+          z-index: 1;
+          background: #FFFFFF;
+          max-width: 360px;
+          margin: 0 auto 100px;
+          padding: 45px;
+          text-align: center;
+          box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+        }
+        .form input {
+          font-family: "Roboto", sans-serif;
+          outline: 0;
+          background: #f2f2f2;
+          width: 100%;
+          border: 0;
+          margin: 0 0 15px;
+          padding: 15px;
+          box-sizing: border-box;
+          font-size: 14px;
+        }
+        .form button {
+          font-family: "Roboto", sans-serif;
+          text-transform: uppercase;
+          outline: 0;
+          background: #BDBDBD;
+          width: 100%;
+          border: 0;
+          padding: 15px;
+          color: #FFFFFF;
+          font-size: 14px;
+          -webkit-transition: all 0.3 ease;
+          transition: all 0.3 ease;
+          cursor: pointer;
+        }
+        .form button:hover,.form button:active,.form button:focus {
+          background: #8C8C8C;
+        }
+        .form .message {
+          margin: 15px 0 0;
+          color: #b3b3b3;
+          font-size: 12px;
+        }
+        .form .message a {
+          color: #b3b3b3;
+          text-decoration: none;
+        }
+        .form .register-form {
+          display: none;
+        }
+        .container {
+          position: relative;
+          z-index: 1;
+          max-width: 300px;
+          margin: 0 auto;
+        }
+        .container:before, .container:after {
+          content: "";
+          display: block;
+          clear: both;
+        }
+        .container .info {
+          margin: 50px auto;
+          text-align: center;
+        }
+        .container .info h1 {
+          margin: 0 0 15px;
+          padding: 0;
+          font-size: 36px;
+          font-weight: 300;
+          color: #1a1a1a;
+        }
+        .container .info span {
+          color: #4d4d4d;
+          font-size: 12px;
+        }
+        .container .info span a {
+          color: #000000;
+          text-decoration: none;
+        }
+        .container .info span .fa {
+          color: #EF3B3A;
+        }
+        body {
+          background: #BDBDBD; /* fallback for old browsers */
+          background: -webkit-linear-gradient(right, #BDBDBD, #EAEAEA);
+          background: -moz-linear-gradient(right, #BDBDBD, #EAEAEA);
+          background: -o-linear-gradient(right, #BDBDBD, #EAEAEA);
+          background: linear-gradient(to left, #BDBDBD, #EAEAEA);
+          font-family: "Roboto", sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;      
+        }
+      </style>
+    </head>
+
+    <body>
+        <!-- 네비게이션 바 시작 -->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">동의대 학생 홈페이지</a>
+            </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                    <a href="/">Home</a>
+                    </li>
+                    <li>
+                    <a id="joinmenu" href="/join.html">가입</a>
+                    </li>
+                    <li class="active">
+                    <a id="loginmenu" href="/login.html">로그인</a>
+                    </li>
+                </ul>
+                </div>
+            <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container-fluid -->
+            </nav>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <!-- 네비게이션 바 끝 -->
+
+            <!-- 가입 폼 시작 -->
+            <div class="login-page">
+                <div class="form">
+                    <form class="register-form">
+                    </form>
+                    <form class="login-form">
+                    <input type="text"  id="email" placeholder="email"/>
+                    <input type="password" id="pwd" placeholder="password"/>
+                    <button type="button" class="btn btn-default login">login</button>
+                    </form>
+                </div>
+            </div>
+            <!-- 가입 폼 끝 -->
+
+            <script>
+            var firebaseEmailAuth; //파이어베이스 email 인증 모듈 전역변수
+            var firebaseDatabase; //파이어베이스 db 모듈 전역변수
+            var userInfo; //가입한 유저의 정보. object 타입
+            //파이어 베이스 초기화 코드
+            var firebaseConfig = {
+                apiKey: "AIzaSyCxibhzYkH9RgWrNgrLmz-Re38KiYLMfiw",
+                authDomain: "https://deu-web-project.firebaseapp.com",
+                databaseURL: "https://deu-web-project.firebaseio.com",
+                projectId: "deu-web-project",
+                storageBucket: "deu-web-project.appspot.com",
+                appId: "1:536460023742:web:12f1e5439038e9a9"
+            };
+                
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+            firebaseEmailAuth = firebase.auth(); //파이어베이스 인증 객체
+            firebaseDatabase = firebase.database(); //파이어베이스 데이터베이스 객체
+
+            //제이쿼리를 사용한다.
+            $(document).ready(function () {
+
+                //가입버튼 눌렀을 때
+                $(document).on('click', '.login', function () {
+
+                    //제이쿼리 선택자와 val() 함수를 이용해서 이메일,비밀번호 값을 가져온다. 
+                    var email = $('#email').val();
+                    var password = $('#pwd').val();
+
+                    //파이어베이스 이메일 로그인 함수
+                    firebaseEmailAuth.signInWithEmailAndPassword(email, password).then(function (firebaseUser) {
+                        //성공하면 firebaseUser에 유저 정보 값이 담겨 넘어온다.
+                        loginSuccess(firebaseUser);
+                    })
+                    .catch(function (error) {
+                        // 실패했을 때 에러 처리
+                        alert(error);
+                        alert("로그인 실패");
+                    });
+                });
+            });
+
+            //로그인 성공했을 때
+            function loginSuccess(firebaseUser) {
+                alert("로그인 성공");
+
+                //로그인 성공한 유저 id 확인해 보기 - firebase database에 접근해서 데이터 조회 하는 함수
+                firebaseDatabase.ref("users/" + firebaseUser.uid).once('value').then(function (snapshot) {
+                //alert(snapshot.val().name)
+                });
+
+                //메인 페이지로 이동
+                window.location.href = "/index.html"
+            }
+        </script>
+    </body>
+</html>

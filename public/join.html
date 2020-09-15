@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+      <title>동의대 학생 홈페이지 - 회원가입</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
+  </head>
+
+  <body>
+    <!-- 네비게이션 바 시작 -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+          data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">동의대 학생 홈페이지</a>
+        </div>
+  
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="/">Home</a>
+            </li>
+            <li class="active">
+              <a id="joinmenu" href="/join.html">가입</a>
+            </li>
+            <li>
+              <a id="loginmenu" href="/login.html">로그인</a>
+            </li>
+          </ul>
+        </div>
+      <!-- /.navbar-collapse -->
+      </div>
+    <!-- /.container-fluid -->
+    </nav>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- 네비게이션 바 끝 -->
+
+    <!-- 가입 폼 시작 -->
+    <div class="container">
+      <h1>환영합니다!</h1>
+
+      <div class="form-group">
+        <label for="email">이메일:</label>
+        <input type="email" class="form-control" id="email">
+      </div>
+
+      <div class="form-group">
+        <label for="name">이름:</label>
+        <input type="text" class="form-control" id="name">
+      </div>
+
+      <div class="form-group">
+        <label for="pwd">비밀번호:</label>
+        <input type="password" class="form-control" id="pwd">
+      </div>
+
+      <div class="form-group">
+        <label for="repwd">비밀번호 확인:</label>
+        <input type="password" class="form-control" id="repwd">
+      </div>
+
+      <div class="form-group">
+        <label for="dept">학과:</label>
+        <select id="dept">
+          <option value="한국어문학과">한국어문학과</option>
+          <option value="중국어학과">중국어학과</option>
+          <option value="일본어학과">일본어학과</option>
+          <option value="영어학과">영어학과</option>
+          <option value="불어불문학과">불어불문학과</option>
+          <option value="독어독문학과">독어독문학과</option>
+          <option value="사학과">사학과</option>
+          <option value="문헌정보학과">문헌정보학과</option>
+          <option value="철학상담·심리학과">철학상담·심리학과</option>
+          <option value="평생교육·청소년상담학과">평생교육·청소년상담학과</option>
+          <option value="유아교육과">유아교육과</option>
+          <option value="미디어·광고학부">미디어·광고학부</option>
+          <option value="광고홍보학과">광고홍보학과</option>
+          <option value="신문방송학과">신문방송학과</option>
+          <option value="법·경찰행정학부">법·경찰행정학부</option>
+          <option value="법학과">법학과</option>
+          <option value="경찰행정학과">경찰행정학과</option>
+          <option value="소방방재행정학과">소방방재행정학과</option>
+          <option value="공공인재학부">공공인재학부</option>
+          <option value="행정정책학과">행정정책학과</option>
+          <option value="사회복지학과">사회복지학과</option>
+          <option value="경제·금융보험·재무부동산학부">경제·금융보험·재무부동산학부</option>
+          <option value="경제학과">경제학과</option>
+          <option value="금융보험학과">금융보험학과</option>
+          <option value="재무부동산학과">재무부동산학과</option>
+          <option value="부동산금융·자산경영학과(직업인 과정)">부동산금융·자산경영학과(직업인 과정)</option>
+          <option value="무역·유통학부">무역·유통학부</option>
+          <option value="무역학과">무역학과</option>
+          <option value="유통물류학과">유통물류학과</option>
+          <option value="경영학부">경영학부</option>
+          <option value="경영학과">경영학과</option>
+          <option value="회계학과">회계학과</option>
+          <option value="정보경영학부">정보경영학부</option>
+          <option value="경영정보학과">경영정보학과</option>
+          <option value="e비즈니스학과">e비즈니스학과</option>
+          <option value="호텔관광외식경영학부">호텔관광외식경영학부</option>
+          <option value="국제관광경영학과">국제관광경영학과</option>
+          <option value="호텔·컨벤션경영학과">호텔·컨벤션경영학과</option>
+          <option value="외식산업경영학과">외식산업경영학과</option>
+          <option value="수학과">수학과</option>
+          <option value="물리학과">물리학과</option>
+          <option value="화학과">화학과</option>
+          <option value="분자생물학과">분자생물학과</option>
+          <option value="생명응용학과">생명응용학과</option>
+          <option value="간호학과">간호학과</option>
+          <option value="임상병리학과">임상병리학과</option>
+          <option value="치위생학과">치위생학과</option>
+          <option value="방사선학과">방사선학과</option>
+          <option value="의료경영학과">의료경영학과</option>
+          <option value="물리치료학과">물리치료학과</option>
+          <option value="보육·가정상담학과">보육·가정상담학과</option>
+          <option value="식품영양학과">식품영양학과</option>
+          <option value="한의예과">한의예과</option>
+          <option value="한의학과">한의학과</option>
+          <option value="신소재공학부">신소재공학부</option>
+          <option value="금속소재공학과">금속소재공학과</option>
+          <option value="고분자소재공학과">고분자소재공학과</option>
+          <option value="전기전자소재공학과">전기전자소재공학과</option>
+          <option value="디자인공학부">디자인공학부</option>
+          <option value="제품디자인공학과">제품디자인공학과</option>
+          <option value="인간·시스템디자인공학과">인간·시스템디자인공학과</option>
+          <option value="기계자동차로봇부품공학부">기계자동차로봇부품공학부</option>
+          <option value="기계공학과">기계공학과</option>
+          <option value="로봇·자동화공학과">로봇·자동화공학과</option>
+          <option value="자동차공학과">자동차공학과</option>
+          <option value="산업융합시스템공학부">산업융합시스템공학부</option>
+          <option value="산업ICT기술공학과">산업ICT기술공학과</option>
+          <option value="생산정보기술공학과">생산정보기술공학과</option>
+          <option value="건설공학부">건설공학부</option>
+          <option value="건축학과">건축학과</option>
+          <option value="건축공학과">건축공학과</option>
+          <option value="토목공학과">토목공학과</option>
+          <option value="도시공학과">도시공학과</option>
+          <option value="바이오응용공학부">바이오응용공학부</option>
+          <option value="의생명공학과">의생명공학과</option>
+          <option value="바이오의약공학과">바이오의약공학과</option>
+          <option value="식품공학과">식품공학과</option>
+          <option value="화학환경공학부">화학환경공학부</option>
+          <option value="화학공학과">화학공학과</option>
+          <option value="환경공학과">환경공학과</option>
+          <option value="응용화학과">응용화학과</option>
+          <option value="조선해양공학과">조선해양공학과</option>
+          <option value="컴퓨터공학과">컴퓨터공학과</option>
+          <option value="창의소프트웨어공학부">창의소프트웨어공학부</option>
+          <option value="컴퓨터소프트웨어공학과">컴퓨터소프트웨어공학과</option>
+          <option value="응용소프트웨어공학과">응용소프트웨어공학과</option>
+          <option value="전기전자통신공학부">전기전자통신공학부</option>
+          <option value="전기공학과">전기공학과</option>
+          <option value="전자공학과">전자공학과</option>
+          <option value="정보통신공학과">정보통신공학과</option>
+          <option value="디지털콘텐츠게임애니메이션공학부">디지털콘텐츠게임애니메이션공학부</option>
+          <option value="디지털콘텐츠학과">디지털콘텐츠학과</option>
+          <option value="게임애니메이션공학과">게임애니메이션공학과</option>
+          <option value="영화학과">영화학과</option>
+          <option value="음악학과">음악학과</option>
+          <option value="디자인조형학과">디자인조형학과</option>
+          <option value="패션디자인학과">패션디자인학과</option>
+          <option value="체육학과">체육학과</option>
+          <option value="레저스포츠태권도학부">레저스포츠태권도학부</option>
+          <option value="레저스포츠학과">레저스포츠학과</option>
+          <option value="태권도학과">태권도학과</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="stu_id">학번:</label>
+        <input type="text" class="form-control" id="stu_id">
+      </div>
+
+      <a type="button" class="btn btn-default join">가입</a>
+      <p></p>
+      <p></p>
+      <p></p>
+    </div>
+    <!-- 가입 폼 끝 -->
+
+    <!--스크립트 부분. 자신의 스크립트 코드로 변경하세요! -->
+    <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyCxibhzYkH9RgWrNgrLmz-Re38KiYLMfiw",
+        authDomain: "https://deu-web-project.firebaseapp.com",
+        databaseURL: "https://deu-web-project.firebaseio.com",
+        projectId: "deu-web-project",
+        storageBucket: "deu-web-project.appspot.com",
+        appId: "1:536460023742:web:12f1e5439038e9a9"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      firebaseEmailAuth = firebase.auth();
+      firebaseDatabase = firebase.database();
+
+
+      var isAdduser = false ;
+      $(document).ready(function(){
+      //가입버튼 눌렀을 때 작동하는 함수
+
+        $(document).on('click','.join',function(){
+        //jquery를 이용해서 입력된 값을 가져온다.
+
+          var email = $('#email').val();
+          var password = $('#pwd').val();
+          var repassword = $('#repwd').val();
+          var dept = $('#dept').val();
+          var stu_id = $('#stu_id').val();
+          var Name = $('#name').val();
+          //이메일로 가입 버튼 눌렀을 때 작동되는 함수 - firebase 인증 모듈
+
+          isAdduser = true ;
+
+          if(password === repassword){
+            firebaseEmailAuth.createUserWithEmailAndPassword(email, password).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // [START_EXCLUDE]
+            if (errorCode === 'auth/wrong-password') {
+              alert('Wrong password.');
+            } else {
+              alert(errorMessage);
+            }
+            console.log(error);
+            isAdduser = false ;
+            // document.getElementById('quickstart-sign-in').disabled = false;
+            // [END_EXCLUDE]
+            });
+          }
+          else {
+            alert('비밀번호를 잘못입력하셨습니다.');
+          }
+        });
+      });
+      /**
+      * initApp handles setting up UI event listeners and registering Firebase auth listeners:
+      * - firebase.auth().onAuthStateChanged: This listener is called when the user is signed in or
+      * out, and that is where we update the UI.
+      */
+      function initApp() {
+        // Listening for auth state changes.
+        // [START authstatelistener]
+        firebase.auth().onAuthStateChanged(function(user) {
+          // [START_EXCLUDE silent]
+          // [END_EXCLUDE]
+          if (user && isAdduser ) {
+            // User is signed in.
+
+            var ref = firebaseDatabase.ref("users/"+ user.uid); //저장될 곳을 users라는 부모 키를 레퍼런스로 지정.
+
+            var Name = $('#name').val();
+            var dept = $('#dept').val();
+            var stu_id = $('#stu_id').val();
+
+            //저장 형식
+            var obj = {Name: Name, dept: dept, stu_id: stu_id};
+
+            ref.set(obj); // 고유한 자식 키가 하나 생셩이 되면서 json 삽입
+
+            alert("가입성공");
+
+            window.location.href = "/index.html"
+
+            // [END_EXCLUDE]
+          } else {
+            // User is signed out.
+            // [START_EXCLUDE]
+            // [END_EXCLUDE]
+          }
+            // [START_EXCLUDE silent]
+            // [END_EXCLUDE]
+        });
+        //[END authstatelistener]
+      }
+
+      window.onload = function() {
+        initApp();
+      };
+    </script>
+  
+</body>
+</html>
